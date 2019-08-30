@@ -23,6 +23,7 @@ com\meeting\booking\dao\MeetingRoomDaoImpl.class
 com\meeting\booking\service\BookingServiceImpl.class
 com\meeting\booking\dao\UserDao.class
 com\meeting\booking\controller\UserController.class
+com\meeting\booking\service\BookingServiceImpl$1.class
 com\meeting\booking\dao\BookingDao.class
 com\meeting\booking\model\Booking.class
 com\meeting\booking\pojo\UserLogin.class
