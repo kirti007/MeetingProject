@@ -143,16 +143,17 @@ public class BookingServiceImpl implements BookingService {
 		try {
 			String st=formateDate1+"T"+splitStartTime[0]+""+splitStartTime[1]+"00";
 			String et=formateDate2+"T"+splitEndTime[0]+""+splitEndTime[1]+"00";
-			String email=user.getEmailId();
-			String purpose=booking.getPurpose();
-			String roomName=meetingRoom.getRoomName();
-			BookingServiceImpl.send(st,et,email,purpose,roomName);
-			//mailService.sendBookingConfirmationMail(user, meetingRoom, booking);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return true;
-	}
+String st1=formateDate1+"T"+splitEndTime[0]+""+splitEndTime[1]+"00";
+String email=user.getEmailId();
+String purpose=booking.getPurpose();
+String roomName=meetingRoom.getRoomName();
+BookingServiceImpl.send(st,et,st1,email,purpose,roomName);
+//mailService.sendBookingConfirmationMail(user, meetingRoom, booking);
+} catch (Exception e) {
+// TODO: handle exception
+}
+return true;
+}
 
 	@Override
 	public boolean isAvailableBetween(int roomId, Date startTime, Date endTime) {
@@ -195,14 +196,14 @@ public class BookingServiceImpl implements BookingService {
 		// TODO Auto-generated method stub
 		return bookingDao.myBookings(id);	}
 
-	@Override
-	public boolean deleteById(int id) {
-		// TODO Auto-generated method stub
-		return bookingDao.deleteById(id);
-	}
-	
-	// create an event in mail
-	public static void send(String st, String et, String email, String purpose, String roomName) throws Exception {
+@Override
+public boolean deleteById(int id) {
+// TODO Auto-generated method stub
+return bookingDao.deleteById(id);
+}
+
+// create an event in mail
+public static void send(String st, String et,String st1, String email, String purpose, String roomName) throws Exception {
 
 	  try {
 	      String from = "bookmeeting6@gmail.com";
@@ -230,9 +231,9 @@ public class BookingServiceImpl implements BookingService {
 	      message.addHeaderLine("charset=UTF-8");
 	      message.addHeaderLine("component=VEVENT");
 
-	      message.setFrom(new InternetAddress(from));
-	      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-	      message.setSubject("Outlook Meeting Request Using JavaMail");
+      message.setFrom(new InternetAddress(from));
+      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+      message.setSubject(" Your Conference Room "+roomName+" has Been Booked");
 
 	      StringBuffer sb = new StringBuffer();
 
@@ -242,8 +243,10 @@ public class BookingServiceImpl implements BookingService {
 	              + "VERSION:2.0\n"
 	              + "METHOD:REQUEST\n"
 	              + "BEGIN:VTIMEZONE\n"
-	              + "TZID:America/New_York\n"
-	              + "X-LIC-LOCATION:America/New_York\n"
+	           //   + "TZID:America/New_York\n"
+	                + "TZID=Asia/Kolkata\n"
+	            //    + "X-LIC-LOCATION:America/New_York\n"
+	             + "X-LIC-LOCATION:Asia/Kolkata\n"
 	              + "BEGIN:STANDARD\n"
 	             // + "DTSTART:20071104T020000\n"
 	       //       + "TZOFFSETFROM:-0400\n"
@@ -260,18 +263,20 @@ public class BookingServiceImpl implements BookingService {
 	              + "BEGIN:VEVENT\n"
 	              +"TRANSP:OPAQUE\n"
 	             +"CREATED:"+st+"\n"
-	             +"LAST-MODIFIED:"+st+"\n"
+	             +"LAST-MODIFIED:"+et+"\n"
 	              +"ATTENDEE;ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:"+email+"\n"
 	              + "ORGANIZER:MAILTO:hockeyonicethricewastoldcold?.com\n"
 	              + "DTSTART;TZID=Asia/Kolkata:"+st+"\n"
-	          //    + "DTEND;TZID=Asia/Kolkata:"+et+"\n"
+	            + "DTEND;TZID=Asia/Kolkata:"+st1+"\n"
 	             +"RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU;UNTIL="+et+"\n"
+	            // +"RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU\n"
 	         //   +"RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=1\n"
 	           //   +"RRULE:FREQ=DAILY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR;BYHOUR=10,11\n"
 	              + "LOCATION:"+roomName+"\n"
 	              + "TRANSP:OPAQUE\n"
 	              + "SEQUENCE:0\n"
 	           //   + "UID:040000008200E00074C5B7101A82E00800000000002FF466CE3AC5010000000000000000100\n"
+	           //+ "UID:${starDateString}\n"
 	              + "DTSTAMP:"+st+"\n"
 	              + "CATEGORIES:Meeting\n"
 	              + "DESCRIPTION:"+purpose+"\n"
