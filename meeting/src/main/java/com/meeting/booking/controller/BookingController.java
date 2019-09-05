@@ -46,8 +46,8 @@ public class BookingController {
 	@RequestMapping(value = RestMappingUrls.Booking.BOOK, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public RestResponse<String> book(@RequestBody BookingDetails bookingDetails) throws ApplicationExceptions {
 		if (bookingService.book(bookingDetails))
-			return new RestResponse<String>(false, "0", "Room has been booked ", "SUCCESS");
-		return new RestResponse<String>(true, "0", "Unable to book the room  ", "FAILED");
+			return new RestResponse<String>(false, "0", null, "Room has been booked");
+		return new RestResponse<String>(true, "0", null, "Unable to book the room");
 	}
 
 	@RequestMapping(value = RestMappingUrls.Booking.getFromCurrentDate, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

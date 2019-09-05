@@ -11,7 +11,9 @@ public enum ApplicationResponseCode {
 	WROND_DATE_SELECTED("Starts date and time always be lesser then start date time !!", "WRG_DATE"), //
 	INVALID_ROOM("Invalid room !!", "INV_ROOM"), //
 	NOT_VALID_USER("Not valid user !!", "INV_USER"),
-	ALREADY_BOOKED("Room is already booked between entered time","Wrong_time");
+	ALREADY_BOOKED("Room is already booked between entered time","Wrong_time"),
+	LONG_BOOKING("More than 10 hours booking in a single day is not allowed","INV_Time"),
+	MULTIPLE_DAY("START TIME IS ALWAYS LESS THAN END TIME","WRG_TIME");
 	private String message;
 	private String code;
 
