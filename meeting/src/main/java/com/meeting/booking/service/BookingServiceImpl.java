@@ -286,7 +286,7 @@ public static void send(String st, String et,String st1, String email, String pu
 	              + "DTSTAMP:"+st+"\n"
 	              + "CATEGORIES:Meeting\n"
 	              + "DESCRIPTION:"+purpose+"\n"
-	              + "SUMMARY:Your Confrence Room has Been Booked\n"
+	              + "SUMMARY:Your Conference Room has Been Booked\n"
 	              + "PRIORITY:5\n"
 	              + "CLASS:PUBLIC\n"
 	              + "BEGIN:VALARM\n"
