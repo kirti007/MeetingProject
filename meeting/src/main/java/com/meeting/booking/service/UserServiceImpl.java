@@ -91,7 +91,8 @@ public class UserServiceImpl implements UserService {
 
 	public boolean composeMailAndSend(User user) {
 		StringBuilder builder = new StringBuilder();
-		while (LENGTH_OF_OTP-- != 0) {
+		int a=LENGTH_OF_OTP;
+		while (a-- != 0){
 			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
 			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
 		}

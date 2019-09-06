@@ -53,7 +53,7 @@ public class MailService {
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmailId(), false));
 			msg.setSubject("Reset password OTP ");
 			msg.setText(
-					"<b>Hi " + user.getName().toUpperCase()+ "</b> <br><br>\n         You have recently requested for a new password for your <b>connect2Conference</b> account. Your temporary password is :-<b> <mark>" + otp + "</mark></b>\n",
+					"<b>Hi " + user.getName().toUpperCase()+ "</b> <br><br>\n         You have recently requested for a new password for your <b>BookMyCR</b> account. Your temporary password is :-<b> <mark>" + otp + "</mark></b>\n",
 					"utf-8", "html");
 			msg.setSentDate(new Date());
 			// this means you do not need socketFactory properties
