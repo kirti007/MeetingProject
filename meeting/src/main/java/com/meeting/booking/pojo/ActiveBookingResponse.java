@@ -2,42 +2,36 @@ package com.meeting.booking.pojo;
 
 public class ActiveBookingResponse {
 
-	private String startDate;
-	private String endDate;
-	private String startTime;
-	private String endTime;
+	// private String startDate;
+	// private String endDate;
+	private String start;
+	private String end;
 	private String purpose;
+	private String dow = null;
+	private Ranges[] ranges;
 
-	public String getStartDate() {
-		return startDate;
+	public Ranges[] getRanges() {
+		return ranges;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setRanges(Ranges[] ranges) {
+		this.ranges = ranges;
 	}
 
-	public String getStartTime() {
-		return startTime;
+	public String getStart() {
+		return start;
 	}
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setStart(String start) {
+		this.start = start;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public String getEnd() {
+		return end;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 	public String getPurpose() {
@@ -47,5 +41,19 @@ public class ActiveBookingResponse {
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
 	}
+
+	public String getDow() {
+		return dow;
+	}
+
+	public void setDow(String dow) {
+		this.dow = dow;
+	}
+
+	/*
+	 * public String getStartDate() { return startDate; }
+	 * 
+	 * public void setStartDate(String startDate) { this.startDate = startDate; }
+	 */
 
 }

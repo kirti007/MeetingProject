@@ -29,6 +29,7 @@ import com.meeting.booking.model.NewBooking;
 import com.meeting.booking.pojo.ActiveBookingResponse;
 import com.meeting.booking.pojo.AvailibilityResponse;
 import com.meeting.booking.pojo.CheckAvailibilty;
+import com.meeting.booking.pojo.Ranges;
 
 @Transactional
 @Repository
@@ -80,6 +81,9 @@ public class BookingDaoImpl implements BookingDao {
 		 * date = new Date(System.currentTimeMillis()); String s1="";
 		 * s1="'"+formatter.format(date)+"'";
 		 */
+		int length = 0;
+		int length1 = 1;
+		String s="0,1,2,3,4,5,6";
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		String s1 = "";
 		s1 = "'" + timeStamp + "'";
@@ -101,22 +105,40 @@ public class BookingDaoImpl implements BookingDao {
 			Date sTime = b.getStartTime();
 			Date eTime = b.getEndTime();
 			String[] s2 = sTime.toString().split(" ");
-			String[] s3 = s2[0].split("-");
-			String startDate = s3[2] + "/" + s3[1] + "/" + s3[0];
+			String startDate = s2[0];
+			// String startDate = s3[2] + "/" + s3[1] + "/" + s3[0];
 			String startTime = s2[1].substring(0, 5);
 
 			String[] s5 = eTime.toString().split(" ");
-			String[] s6 = s5[0].split("-");
-			String endDate = s6[2] + "/" + s6[1] + "/" + s6[0];
+			String endDate = s5[0];
+			// String endDate = s6[2] + "/" + s6[1] + "/" + s6[0];
 			String endTime = s5[1].substring(0, 5);
 
 			// String strDate1 = dateFormat.format(sTime).substring(0, 19).replace("T", "");
 			// String strDate2 = dateFormat.format(eTime).substring(0, 19).replace("T", "");
-			b1.setStartDate(startDate);
-			b1.setStartTime(startTime);
-			b1.setEndDate(endDate);
-			b1.setEndTime(endTime);
+			Ranges[] r = null;
+			r = new Ranges[1];
+
+			Ranges r1 = new Ranges();
+			r1.setStart(startDate);
+			String timeToEdit=endDate;
+			String [] timeToEdit1=timeToEdit.split("-");
+			Integer timeToEdit2=Integer.parseInt(timeToEdit1[2])+1;
+			String timeToEdit3=	timeToEdit1[0]+"-"+timeToEdit1[1]+"-"+timeToEdit2;
+			r1.setEnd(timeToEdit3);
+			r[0] = r1;
+
+			// b1.setStartDate(startDate);
+			b1.setStart(startTime);
+			// b1.setEndDate(endDate);
+//			String timeToEdit=endTime;
+//			String [] timeToEdit1=timeToEdit.split("-");
+//			int timeToEdit2=Integer.parseInt(timeToEdit1[2]);
+//		String timeToEdit3=	timeToEdit1[0]+"-"+timeToEdit1[1]+"-"+timeToEdit2+1;
+			b1.setEnd(endTime);
 			b1.setPurpose(b.getPurpose());
+			b1.setRanges(r);
+			b1.setDow(s);
 			bookings2.add(b1);
 
 		}
