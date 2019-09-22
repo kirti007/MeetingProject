@@ -94,4 +94,30 @@ public class MailService {
 		}
 		return false;
 	}
+	
+	public boolean sendSignUpConfirmationMail(User user) {
+		setPropertiesAndSession();
+		try {
+			// create the message
+			final MimeMessage msg = new MimeMessage(session);
+			// set recipients and content
+			msg.setFrom(new InternetAddress(SENDER_EMAIL));
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmailId(), false));
+			msg.setSubject("SignUp Confirmation");
+			msg.setText(
+					"Hi </b>" + user.getName().toUpperCase()+ "</b>\n         You have Successfully SignUp for your <b>BookMyCR</b> account.\n",
+					"utf-8", "html");
+			msg.setSentDate(new Date());
+			// this means you do not need socketFactory properties
+			Transport transport = session.getTransport("smtps");
+			// send the mail
+			transport.connect(GMAIL_HOST, SENDER_USERNAME, SENDER_PASSWORD);
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();
+			return true;
+		} catch (MessagingException e) {
+			logger.log(Level.SEVERE, "Failed to send message", e);
+		}
+		return false;
+	}
 }

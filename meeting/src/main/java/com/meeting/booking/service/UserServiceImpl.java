@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 		String hashedPassword = hashPassword(userPojo.getPassword());
 		User user = new User(userPojo.getName(), userPojo.getEmailId(), hashedPassword, userPojo.getUserName());
 		userDao.save(user);
-		return true;
+		return mailService.sendSignUpConfirmationMail(user);
 	}
 
 	private String hashPassword(String password) {
