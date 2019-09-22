@@ -25,9 +25,9 @@ public class MailService {
 	private static final String GMAIL_HOST = "smtp.gmail.com";
 	private static final String TLS_PORT = "465";
 
-	private static final String SENDER_EMAIL = "bookmeeting6@gmail.com";
-	private static final String SENDER_USERNAME = "bookmeeting6@gmail.com";
-	private static final String SENDER_PASSWORD = "Rahul@95";
+	private static final String SENDER_EMAIL = "bookmycr@atmecs.com";
+	private static final String SENDER_USERNAME = "bookmycr@atmecs.com";
+	private static final String SENDER_PASSWORD = "Atmecs@123456789";
 	private static Properties props;
 	private static Session session;
 

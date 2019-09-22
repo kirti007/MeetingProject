@@ -50,7 +50,7 @@ public class BookingController {
 		return new RestResponse<String>(true, "0", null, "Unable to book the room");
 	}
 
-	@RequestMapping(value = RestMappingUrls.Booking.getFromCurrentDate, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = RestMappingUrls.Booking.getFromCurrentDate, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestResponse<List<ActiveBookingResponse>> getFromCurrentDate(@RequestParam Integer id) {
 		List<ActiveBookingResponse> b = null;
 		b = bookingService.getFromCurrentDate(id);

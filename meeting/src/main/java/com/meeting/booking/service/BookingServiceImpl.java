@@ -61,22 +61,21 @@ public class BookingServiceImpl implements BookingService {
 	public boolean book(BookingDetails bookingDetails) throws ApplicationExceptions {
 		if (bookingDetails == null || StringUtils.isEmpty(bookingDetails.getUserId()))
 			throw new ApplicationExceptions(ApplicationResponseCode.USER_ID_NULL);
-	int id=bookingDetails.getRoomId();
-		String sTime= bookingDetails.getStartTime();
-	     String eTime=	bookingDetails.getEndTime(); 
-	     CheckAvailibilty c1=new CheckAvailibilty(id, sTime, eTime);
-	     boolean b2=bookingDao.checkStatus(c1);
-	   if(b2==false)
-	    		 {
-	    	  throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED); 
+		int id = bookingDetails.getRoomId();
+		String sTime = bookingDetails.getStartTime();
+		String eTime = bookingDetails.getEndTime();
+		CheckAvailibilty c1 = new CheckAvailibilty(id, sTime, eTime);
+		boolean b2 = bookingDao.checkStatus(c1);
+		if (b2 == false) {
+			throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED);
 
-	    		 }
-		
-	  /*  boolean b1= bookingcontroller.checkAvailability(c1).isError();
-	      if(b1==true) {
-	    	  throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED); 
-	      } */
-		
+		}
+
+		/*
+		 * boolean b1= bookingcontroller.checkAvailability(c1).isError(); if(b1==true) {
+		 * throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED); }
+		 */
+
 		User user = userDao.findById(bookingDetails.getUserId());
 		if (user == null)
 			throw new ApplicationExceptions(ApplicationResponseCode.NOT_VALID_USER);
@@ -90,33 +89,32 @@ public class BookingServiceImpl implements BookingService {
 		String[] splitStartTime;
 		String[] splitEndTime;
 		try {
-			String []splitStartDate =bookingDetails.getStartTime().split(" ");
-			String []splitEndDate =bookingDetails.getEndTime().split(" ");
-			
-			String []SplitStartDate1=splitStartDate[0].split("/");
-			String []SplitEndDate2=splitEndDate[0].split("/");
-			splitStartTime=splitStartDate[1].split(":");
-			splitEndTime=splitEndDate[1].split(":");
+			String[] splitStartDate = bookingDetails.getStartTime().split(" ");
+			String[] splitEndDate = bookingDetails.getEndTime().split(" ");
 
-		 startMinute=(Integer.parseInt(splitStartTime[0])*60)+Integer.parseInt(splitStartTime[1]);
-		 endMinute=(Integer.parseInt(splitEndTime[0])*60)+Integer.parseInt(splitEndTime[1]);
-		 
-		 //rahul
-		 if((endMinute-startMinute)>600)
-			 throw new ApplicationExceptions(ApplicationResponseCode.LONG_BOOKING);
-			 if((endMinute<startMinute))
-			 throw new ApplicationExceptions(ApplicationResponseCode.MULTIPLE_DAY); 
+			String[] SplitStartDate1 = splitStartDate[0].split("/");
+			String[] SplitEndDate2 = splitEndDate[0].split("/");
+			splitStartTime = splitStartDate[1].split(":");
+			splitEndTime = splitEndDate[1].split(":");
 
-			formateDate1=Integer.parseInt(SplitStartDate1[2]+""+SplitStartDate1[1]+""+SplitStartDate1[0]);
-			formateDate2=Integer.parseInt(SplitEndDate2[2]+""+SplitEndDate2[1]+""+SplitEndDate2[0]);
-			
+			startMinute = (Integer.parseInt(splitStartTime[0]) * 60) + Integer.parseInt(splitStartTime[1]);
+			endMinute = (Integer.parseInt(splitEndTime[0]) * 60) + Integer.parseInt(splitEndTime[1]);
 
-		startTime = dateFormat.parse(bookingDetails.getStartTime());
+			// rahul
+			if ((endMinute - startMinute) > 600)
+				throw new ApplicationExceptions(ApplicationResponseCode.LONG_BOOKING);
+			if ((endMinute < startMinute))
+				throw new ApplicationExceptions(ApplicationResponseCode.MULTIPLE_DAY);
+
+			formateDate1 = Integer.parseInt(SplitStartDate1[2] + "" + SplitStartDate1[1] + "" + SplitStartDate1[0]);
+			formateDate2 = Integer.parseInt(SplitEndDate2[2] + "" + SplitEndDate2[1] + "" + SplitEndDate2[0]);
+
+			startTime = dateFormat.parse(bookingDetails.getStartTime());
 			endTime = dateFormat.parse(bookingDetails.getEndTime());
 		} catch (ParseException e) {
 			return false;
 		}
-		
+
 		if (startTime.after(endTime))
 			throw new ApplicationExceptions(ApplicationResponseCode.WROND_DATE_SELECTED);
 		MeetingRoom meetingRoom = meetingRoomDao.findById(bookingDetails.getRoomId());
@@ -126,40 +124,40 @@ public class BookingServiceImpl implements BookingService {
 //				user.getId(), Status.BOOKED);
 //		NewBooking booking2=new NewBooking(formateDate1, startMinute, formateDate2, endMinute, booking.getBookedRoom(), booking.getStatus());
 //		bookingDao.save(booking,booking2);
-		Booking booking=new Booking();
+		Booking booking = new Booking();
 		booking.setPurpose(bookingDetails.getPurpose());
 		booking.setStartTime(startTime);
 		booking.setEndTime(endTime);
 		booking.setBookedRoom(meetingRoom.getId());
 		booking.setBookedBy(user.getId());
 		booking.setStatus(Status.BOOKED);
-		
-		NewBooking newBooking=new NewBooking();
+
+		NewBooking newBooking = new NewBooking();
 		newBooking.setStartDate(formateDate1);
 		newBooking.setStartTime(startMinute);
 		newBooking.setEndDate(formateDate2);
 		newBooking.setEndTime(endMinute);
 		newBooking.setBookedRoom(meetingRoom.getId());
 		newBooking.setStatus(Status.BOOKED);
-		
+
 		booking.setNewBooking(newBooking);
 		newBooking.setBooking(booking);
-		bookingDao.save(booking,null);
-		
+		bookingDao.save(booking, null);
+
 		try {
-			String st=formateDate1+"T"+splitStartTime[0]+""+splitStartTime[1]+"00";
-			String et=formateDate2+"T"+splitEndTime[0]+""+splitEndTime[1]+"00";
-String st1=formateDate1+"T"+splitEndTime[0]+""+splitEndTime[1]+"00";
-String email=user.getEmailId();
-String purpose=booking.getPurpose();
-String roomName=meetingRoom.getRoomName();
-BookingServiceImpl.send(st,et,st1,email,purpose,roomName);
+			String st = formateDate1 + "T" + splitStartTime[0] + "" + splitStartTime[1] + "00";
+			String et = formateDate2 + "T" + splitEndTime[0] + "" + splitEndTime[1] + "00";
+			String st1 = formateDate1 + "T" + splitEndTime[0] + "" + splitEndTime[1] + "00";
+			String email = user.getEmailId();
+			String purpose = booking.getPurpose();
+			String roomName = meetingRoom.getRoomName();
+			BookingServiceImpl.send(st, et, st1, email, purpose, roomName);
 //mailService.sendBookingConfirmationMail(user, meetingRoom, booking);
-} catch (Exception e) {
+		} catch (Exception e) {
 // TODO: handle exception
-}
-return true;
-}
+		}
+		return true;
+	}
 
 	@Override
 	public boolean isAvailableBetween(int roomId, Date startTime, Date endTime) {
@@ -188,8 +186,6 @@ return true;
 			return true;
 		return false;
 	}
-	
-	
 
 	@Override
 	public List<ActiveBookingResponse> getFromCurrentDate(int id) {
@@ -200,135 +196,112 @@ return true;
 	@Override
 	public List<AvailibilityResponse> myBookings(int id) {
 		// TODO Auto-generated method stub
-		return bookingDao.myBookings(id);	}
-
-@Override
-public boolean deleteById(int id) {
-// TODO Auto-generated method stub
-return bookingDao.deleteById(id);
-}
-
-// create an event in mail
-public static void send(String st, String et,String st1, String email, String purpose, String roomName) throws Exception {
-
-	  try {
-	      String from = "bookmeeting6@gmail.com";
-	      String to =email;
-	      Properties prop = new Properties();
-
-	      prop.put("mail.smtp.auth", "true");
-	      prop.put("mail.smtp.starttls.enable", "true");
-	      prop.put("mail.smtp.host", "smtp.gmail.com");
-	      prop.put("mail.smtp.port", "587");
-
-	      final String username = "bookmeeting6@gmail.com";
-	      final String password = "Rahul@95";
-
-	      Session session = Session.getInstance(prop,
-	                new javax.mail.Authenticator() {
-	                  protected PasswordAuthentication getPasswordAuthentication() {
-	                      return new PasswordAuthentication(username, password);
-	                  }
-	                });
-
-	      // Define message
-	      MimeMessage message = new MimeMessage(session);
-	      message.addHeaderLine("method=REQUEST");
-	      message.addHeaderLine("charset=UTF-8");
-	      message.addHeaderLine("component=VEVENT");
-
-      message.setFrom(new InternetAddress(from));
-      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-      message.setSubject(" Your Conference Room "+roomName+" has Been Booked");
-
-	      StringBuffer sb = new StringBuffer();
-
-	      StringBuffer buffer = sb.append(
-	              "BEGIN:VCALENDAR\n"
-	              + "PRODID:-//Microsoft Corporation//Outlook 9.0 MIMEDIR//EN\n"
-	              + "VERSION:2.0\n"
-	              + "METHOD:REQUEST\n"
-	              + "BEGIN:VTIMEZONE\n"
-	           //   + "TZID:America/New_York\n"
-	                + "TZID=Asia/Kolkata\n"
-	            //    + "X-LIC-LOCATION:America/New_York\n"
-	             + "X-LIC-LOCATION:Asia/Kolkata\n"
-	              + "BEGIN:STANDARD\n"
-	             // + "DTSTART:20071104T020000\n"
-	       //       + "TZOFFSETFROM:-0400\n"
-	     //         + "TZOFFSETTO:-0500\n"
-	              + "TZNAME:EST\n"
-	              + "END:STANDARD\n"
-	              + "BEGIN:DAYLIGHT\n"
-	           //   + "DTSTART:20070311T020000\n"
-	         //     + "TZOFFSETFROM:-0500\n"
-	            //  + "TZOFFSETTO:-0400\n"
-	              + "TZNAME:EDT\n"
-	              + "END:DAYLIGHT\n"
-	              + "END:VTIMEZONE\n"
-	              + "BEGIN:VEVENT\n"
-	              +"TRANSP:OPAQUE\n"
-	             +"CREATED:"+st+"\n"
-	             +"LAST-MODIFIED:"+et+"\n"
-	              +"ATTENDEE;ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:"+email+"\n"
-	              + "ORGANIZER:MAILTO:hockeyonicethricewastoldcold?.com\n"
-	              + "DTSTART;TZID=Asia/Kolkata:"+st+"\n"
-	            + "DTEND;TZID=Asia/Kolkata:"+st1+"\n"
-	             +"RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU;UNTIL="+et+"\n"
-	            // +"RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU\n"
-	         //   +"RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=1\n"
-	           //   +"RRULE:FREQ=DAILY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR;BYHOUR=10,11\n"
-	              + "LOCATION:"+roomName+"\n"
-	              + "TRANSP:OPAQUE\n"
-	              + "SEQUENCE:0\n"
-	           //   + "UID:040000008200E00074C5B7101A82E00800000000002FF466CE3AC5010000000000000000100\n"
-	           //+ "UID:${starDateString}\n"
-	              + "DTSTAMP:"+st+"\n"
-	              + "CATEGORIES:Meeting\n"
-	              + "DESCRIPTION:"+purpose+"\n"
-	              + "SUMMARY:Your Conference Room has Been Booked\n"
-	              + "PRIORITY:5\n"
-	              + "CLASS:PUBLIC\n"
-	              + "BEGIN:VALARM\n"
-	              + "TRIGGER:PT1440M\n"
-	              + "ACTION:DISPLAY\n"
-	              + "DESCRIPTION:Reminder\n"
-	              + "END:VALARM\n"
-	              + "END:VEVENT\n"
-	              + "END:VCALENDAR");
-
-	      
-	      // Create the message part
-	      BodyPart messageBodyPart = new MimeBodyPart();
-
-	      // Fill the message
-	      messageBodyPart.setHeader("Content-Class", "urn:content-  classes:calendarmessage");
-	      messageBodyPart.setHeader("Content-ID", "calendar_message");
-	      messageBodyPart.setDataHandler(new DataHandler(
-	              new ByteArrayDataSource(buffer.toString(), "text/calendar")));// very important
-
-	      // Create a Multipart
-	      Multipart multipart = new MimeMultipart();
-
-	      // Add part one
-	      multipart.addBodyPart(messageBodyPart);
-
-	      // Put parts in message
-	      message.setContent(multipart);
-
-	      // send message
-
-
-	      Transport.send(message);
-
-	      System.out.println("Success");
-
-	  } catch (MessagingException me) {
-	      me.printStackTrace();
-	  } catch (Exception ex) {
-	      ex.printStackTrace();
-	  }
+		return bookingDao.myBookings(id);
 	}
 
+	@Override
+	public boolean deleteById(int id) {
+// TODO Auto-generated method stub
+		return bookingDao.deleteById(id);
+	}
+
+// create an event in mail
+	public static void send(String st, String et, String st1, String email, String purpose, String roomName)
+			throws Exception {
+
+		try {
+			String from = "bookmycr@atmecs.com";
+			String to = email;
+			Properties prop = new Properties();
+
+			prop.put("mail.smtp.auth", "true");
+			prop.put("mail.smtp.starttls.enable", "true");
+			prop.put("mail.smtp.host", "smtp.gmail.com");
+			prop.put("mail.smtp.port", "587");
+
+			final String username = "bookmycr@atmecs.com";
+			final String password = "Atmecs@123456789";
+
+			Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
+
+			// Define message
+			MimeMessage message = new MimeMessage(session);
+			message.addHeaderLine("method=REQUEST");
+			message.addHeaderLine("charset=UTF-8");
+			message.addHeaderLine("component=VEVENT");
+
+			message.setFrom(new InternetAddress(from));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setSubject(" Your Conference Room " + roomName + " has Been Booked");
+
+			StringBuffer sb = new StringBuffer();
+
+			StringBuffer buffer = sb
+					.append("BEGIN:VCALENDAR\n" + "PRODID:-//Microsoft Corporation//Outlook 9.0 MIMEDIR//EN\n"
+							+ "VERSION:2.0\n" + "METHOD:REQUEST\n" + "BEGIN:VTIMEZONE\n"
+							// + "TZID:America/New_York\n"
+							+ "TZID=Asia/Kolkata\n"
+							// + "X-LIC-LOCATION:America/New_York\n"
+							+ "X-LIC-LOCATION:Asia/Kolkata\n" + "BEGIN:STANDARD\n"
+							// + "DTSTART:20071104T020000\n"
+							// + "TZOFFSETFROM:-0400\n"
+							// + "TZOFFSETTO:-0500\n"
+							+ "TZNAME:EST\n" + "END:STANDARD\n" + "BEGIN:DAYLIGHT\n"
+							// + "DTSTART:20070311T020000\n"
+							// + "TZOFFSETFROM:-0500\n"
+							// + "TZOFFSETTO:-0400\n"
+							+ "TZNAME:EDT\n" + "END:DAYLIGHT\n" + "END:VTIMEZONE\n" + "BEGIN:VEVENT\n"
+							+ "TRANSP:OPAQUE\n" + "CREATED:" + st + "\n" + "LAST-MODIFIED:" + et + "\n"
+							+ "ATTENDEE;ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:" + email + "\n"
+							+ "ORGANIZER:MAILTO:hockeyonicethricewastoldcold?.com\n" + "DTSTART;TZID=Asia/Kolkata:" + st
+							+ "\n" + "DTEND;TZID=Asia/Kolkata:" + st1 + "\n"
+							+ "RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU;UNTIL=" + et + "\n"
+							// +"RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR,SA,SU\n"
+							// +"RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=1\n"
+							// +"RRULE:FREQ=DAILY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR;BYHOUR=10,11\n"
+							+ "LOCATION:" + roomName + "\n" + "TRANSP:OPAQUE\n" + "SEQUENCE:0\n"
+							// +
+							// "UID:040000008200E00074C5B7101A82E00800000000002FF466CE3AC5010000000000000000100\n"
+							// + "UID:${starDateString}\n"
+							+ "DTSTAMP:" + st + "\n" + "CATEGORIES:Meeting\n" + "DESCRIPTION:" + purpose + "\n"
+							+ "SUMMARY:Your Conference Room has Been Booked\n" + "PRIORITY:5\n" + "CLASS:PUBLIC\n"
+							+ "BEGIN:VALARM\n" + "TRIGGER:PT1440M\n" + "ACTION:DISPLAY\n" + "DESCRIPTION:Reminder\n"
+							+ "END:VALARM\n" + "END:VEVENT\n" + "END:VCALENDAR");
+
+			// Create the message part
+			BodyPart messageBodyPart = new MimeBodyPart();
+
+			// Fill the message
+			messageBodyPart.setHeader("Content-Class", "urn:content-  classes:calendarmessage");
+			messageBodyPart.setHeader("Content-ID", "calendar_message");
+			messageBodyPart
+					.setDataHandler(new DataHandler(new ByteArrayDataSource(buffer.toString(), "text/calendar")));// very
+																													// important
+
+			// Create a Multipart
+			Multipart multipart = new MimeMultipart();
+
+			// Add part one
+			multipart.addBodyPart(messageBodyPart);
+
+			// Put parts in message
+			message.setContent(multipart);
+
+			// send message
+
+			Transport.send(message);
+
+			System.out.println("Success");
+
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 }
