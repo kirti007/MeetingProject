@@ -12,8 +12,9 @@ public enum ApplicationResponseCode {
 	INVALID_ROOM("Invalid room !!", "INV_ROOM"), //
 	NOT_VALID_USER("Not valid user !!", "INV_USER"),
 	ALREADY_BOOKED("Room is already booked between entered time","Wrong_time"),
-	LONG_BOOKING("More than 10 hours booking in a single day is not allowed","INV_Time"),
-	MULTIPLE_DAY("START TIME IS ALWAYS LESS THAN END TIME","WRG_TIME");
+	LONG_BOOKING("More than 10 hours booking in a single day is not allowed or Time can't be same","INV_Time"),
+	MULTIPLE_DAY("START TIME IS ALWAYS LESS THAN END TIME","WRG_TIME"),
+	SAME_TIME("Start Time & End Time Can Not Be Same", "INV_Time");
 	private String message;
 	private String code;
 

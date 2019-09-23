@@ -100,7 +100,10 @@ public class BookingServiceImpl implements BookingService {
 			startMinute = (Integer.parseInt(splitStartTime[0]) * 60) + Integer.parseInt(splitStartTime[1]);
 			endMinute = (Integer.parseInt(splitEndTime[0]) * 60) + Integer.parseInt(splitEndTime[1]);
 
-			// rahul
+			
+			if (endMinute.equals(startMinute)) {
+				throw new ApplicationExceptions(ApplicationResponseCode.SAME_TIME);
+			}
 			if ((endMinute - startMinute) > 600)
 				throw new ApplicationExceptions(ApplicationResponseCode.LONG_BOOKING);
 			if ((endMinute < startMinute))

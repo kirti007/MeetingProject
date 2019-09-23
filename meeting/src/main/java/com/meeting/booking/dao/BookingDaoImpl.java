@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
+import com.meeting.booking.constants.RestMappingUrls.User;
 import com.meeting.booking.enums.Status;
 import com.meeting.booking.model.Booking;
 import com.meeting.booking.model.MeetingRoom;
@@ -102,6 +103,7 @@ public class BookingDaoImpl implements BookingDao {
 
 			ActiveBookingResponse b1 = new ActiveBookingResponse();
 			Booking b = itr.next();
+			//int bookedById=b.getBookedBy();
 			Date sTime = b.getStartTime();
 			Date eTime = b.getEndTime();
 			String[] s2 = sTime.toString().split(" ");
