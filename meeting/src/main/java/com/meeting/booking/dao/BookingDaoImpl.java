@@ -223,13 +223,13 @@ public class BookingDaoImpl implements BookingDao {
 			Query q2 = factory.createNativeQuery("select room_name from meeting_rooms where id=" + k);
 			String room = (String) q2.getSingleResult();
 
-			b1.setStartDate(startDate);
-			b1.setStartTime(starTime);
-			b1.setEndDate(endDate);
-			b1.setEndTime(endTime);
-			b1.setPurpose(b.getPurpose());
+			b1.setStartDate(startDate+" ");
+			b1.setEndDate(endDate+" ");
+			b1.setStartTime(starTime+" ");
+			b1.setEndTime(endTime+" ");
+			b1.setPurpose(b.getPurpose()+" ");
 			b1.setId(b.getId());
-			b1.setMeetingRoom(room);
+			b1.setMeetingRoom(room+" ");
 			bookings2.add(b1);
 
 		}

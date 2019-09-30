@@ -29,7 +29,7 @@ public class UserController {
 		if (signUpDone)
 			return new RestResponse<String>(false, "0",
 					"Successfully registered, please login using userName/email id and password !!", "SUCCESS");
-		return new RestResponse<String>(true, "0", "Oops... unable to registered, please try again !!", "SUCCESS");
+		return new RestResponse<String>(true, "0", "Please use Atmecs Email !!", "SUCCESS");
 	}
 
 	@RequestMapping(value = RestMappingUrls.User.LOGIN, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

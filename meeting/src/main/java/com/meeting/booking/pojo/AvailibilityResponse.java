@@ -11,8 +11,8 @@ public void setMeetingRoom(String meetingRoom) {
 }
 
 	private String startDate;
-	private String startTime;
 	private String endDate;
+	private String startTime;
 	private String endTime;
 	private String purpose;
 	private int id;

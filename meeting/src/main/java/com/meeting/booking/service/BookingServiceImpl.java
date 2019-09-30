@@ -58,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
 	private MailService mailService;
 
 	@Override
-	public boolean book(BookingDetails bookingDetails) throws ApplicationExceptions {
+	public synchronized boolean book(BookingDetails bookingDetails) throws ApplicationExceptions {
 		if (bookingDetails == null || StringUtils.isEmpty(bookingDetails.getUserId()))
 			throw new ApplicationExceptions(ApplicationResponseCode.USER_ID_NULL);
 		int id = bookingDetails.getRoomId();
