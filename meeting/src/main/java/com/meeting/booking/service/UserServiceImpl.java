@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
 	public boolean signUp(UserPojo userPojo) {
 		if (userPojo == null)
 			return false;
+		String [] a=userPojo.getEmailId().split("@");
+	    if(!a[1].equals("atmecs.com")) {
+			return false;
+		}
 		String hashedPassword = hashPassword(userPojo.getPassword());
 		User user = new User(userPojo.getName(), userPojo.getEmailId(), hashedPassword, userPojo.getUserName());
 		userDao.save(user);

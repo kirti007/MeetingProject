@@ -122,12 +122,16 @@ public class BookingDaoImpl implements BookingDao {
 			r = new Ranges[1];
 
 			Ranges r1 = new Ranges();
+//			String startDateToEdit=startDate;
+//			String [] startDateToEdit1=startDateToEdit.split("-");
+//			Integer startDateToEdit2=Integer.parseInt(startDateToEdit1[2])-1;
+//			String startDateToEdit3=	startDateToEdit1[0]+"-"+startDateToEdit1[1]+"-"+startDateToEdit2;
 			r1.setStart(startDate);
 			String timeToEdit=endDate;
-			String [] timeToEdit1=timeToEdit.split("-");
-			Integer timeToEdit2=Integer.parseInt(timeToEdit1[2])+1;
-			String timeToEdit3=	timeToEdit1[0]+"-"+timeToEdit1[1]+"-"+timeToEdit2;
-			r1.setEnd(timeToEdit3);
+			String [] endDateToEdit1=timeToEdit.split("-");
+			Integer endDateToEdit2=Integer.parseInt(endDateToEdit1[2])+1;
+			String endDateToEdit3=	endDateToEdit1[0]+"-"+endDateToEdit1[1]+"-"+endDateToEdit2;
+			r1.setEnd(endDateToEdit3);
 			r[0] = r1;
 
 			// b1.setStartDate(startDate);
