@@ -64,13 +64,6 @@ public class BookingServiceImpl implements BookingService {
 		int id = bookingDetails.getRoomId();
 		String sTime = bookingDetails.getStartTime();
 		String eTime = bookingDetails.getEndTime();
-		CheckAvailibilty c1 = new CheckAvailibilty(id, sTime, eTime);
-		boolean b2 = bookingDao.checkStatus(c1);
-		if (b2 == false) {
-			throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED);
-
-		}
-
 		/*
 		 * boolean b1= bookingcontroller.checkAvailability(c1).isError(); if(b1==true) {
 		 * throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED); }
@@ -100,7 +93,6 @@ public class BookingServiceImpl implements BookingService {
 			startMinute = (Integer.parseInt(splitStartTime[0]) * 60) + Integer.parseInt(splitStartTime[1]);
 			endMinute = (Integer.parseInt(splitEndTime[0]) * 60) + Integer.parseInt(splitEndTime[1]);
 
-			
 			if (endMinute.equals(startMinute)) {
 				throw new ApplicationExceptions(ApplicationResponseCode.SAME_TIME);
 			}
@@ -117,9 +109,16 @@ public class BookingServiceImpl implements BookingService {
 		} catch (ParseException e) {
 			return false;
 		}
-
+		
 		if (startTime.after(endTime))
 			throw new ApplicationExceptions(ApplicationResponseCode.WROND_DATE_SELECTED);
+
+		CheckAvailibilty c1 = new CheckAvailibilty(id, sTime, eTime);
+		boolean b2 = bookingDao.checkStatus(c1);
+		if (b2 == false) {
+			throw new ApplicationExceptions(ApplicationResponseCode.ALREADY_BOOKED);
+
+		}
 		MeetingRoom meetingRoom = meetingRoomDao.findById(bookingDetails.getRoomId());
 		if (meetingRoom == null)
 			throw new ApplicationExceptions(ApplicationResponseCode.INVALID_ROOM);

@@ -1,6 +1,6 @@
 package com.meeting.booking.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import com.meeting.booking.dao.UserDao;
 import com.meeting.booking.model.User;
 import com.meeting.booking.pojo.UpdatePassword;
 import com.meeting.booking.pojo.UserLogin;
-import com.meeting.booking.pojo.UserPojo;
+import com.meeting.booking.pojo.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		String hashedPassword = hashPassword(userPojo.getPassword());
-		User user = new User(userPojo.getName(), userPojo.getEmailId(), hashedPassword, userPojo.getUserName());
+		User user = new User(userPojo.getName(), userPojo.getEmailId(), hashedPassword);
 		userDao.save(user);
 		return mailService.sendSignUpConfirmationMail(user);
 	}
@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService {
 	public UserPojo login(UserLogin login) {
 		User user = userDao.getUser(login.getUserNameOrEmail());
 		if (user == null)
-			throw new IllegalAccessError("Entered email/userName is wrong !!");
+			throw new IllegalAccessError("Entered email is wrong !!");
 		if (!validatePassword(login.getPassword(), user.getPassword()))
 			throw new IllegalAccessError("Entered password is wrong !!");
-		return new UserPojo(user.getId(), user.getName(), user.getEmailId(), null, user.getUserName());
+		return new UserPojo(user.getId(), user.getName(), user.getEmailId(), null);
 	}
 
 	private static boolean validatePassword(String enteredPassword, String savedPassword) {
@@ -108,5 +108,29 @@ public class UserServiceImpl implements UserService {
 			return true;
 		} else
 			return false;
+	}
+	
+	@Override
+	public boolean ForgotPassword_new(String emailId) {
+	if (StringUtils.isEmpty(emailId))
+	throw new IllegalAccessError("Please enter email Id ");
+	User user = userDao.getUser(emailId);
+	if (user == null)
+	throw new IllegalAccessError("Entered email/userName is wrong !!");
+	return mailService.sendLink(user);
+	}
+	
+	@Override
+	public boolean UpdatePasswordNew(UpdatePasswordNew updatePassword) {
+
+	User user = userDao.getUser(updatePassword.getUserNameOrEmail());
+	if (user == null)
+	throw new IllegalAccessError("Entered email/userName is wrong !!");
+
+	String hashedNewPassword = hashPassword(updatePassword.getNewPassword());
+	// user.setPassword(hashedNewPassword);
+	updatePassword.setNewPassword(hashedNewPassword);
+	userDao.UpdatePasswordNew(updatePassword);
+	return true;
 	}
 }

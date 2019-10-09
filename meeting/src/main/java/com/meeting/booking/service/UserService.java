@@ -1,10 +1,11 @@
 package com.meeting.booking.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service; 
 
 import com.meeting.booking.pojo.UpdatePassword;
 import com.meeting.booking.pojo.UserLogin;
-import com.meeting.booking.pojo.UserPojo;
+import com.meeting.booking.pojo.*;
+
 
 @Service
 public interface UserService {
@@ -16,5 +17,9 @@ public interface UserService {
 	boolean updatePassword(UpdatePassword updatePassword);
 
 	boolean forgetPassword(String userId);
+
+	boolean ForgotPassword_new(String emailId);
+
+	boolean UpdatePasswordNew(UpdatePasswordNew updatePassword);
 
 }
