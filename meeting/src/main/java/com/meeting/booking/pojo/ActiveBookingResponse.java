@@ -9,6 +9,7 @@ public class ActiveBookingResponse {
 	private String purpose;
 	private String dow = null;
 	private Ranges[] ranges;
+	private boolean allDay = false;
 
 	public Ranges[] getRanges() {
 		return ranges;
@@ -48,6 +49,14 @@ public class ActiveBookingResponse {
 
 	public void setDow(String dow) {
 		this.dow = dow;
+	}
+
+	public boolean isAllDay() {
+		return allDay;
+	}
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
 	}
 
 	/*

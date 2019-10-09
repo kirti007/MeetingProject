@@ -1,6 +1,9 @@
 package com.meeting.booking.dao;
 
+import java.util.List;
+
 import com.meeting.booking.model.User;
+import com.meeting.booking.pojo.*;
 
 public interface UserDao {
 
@@ -11,4 +14,8 @@ public interface UserDao {
 	User getUser(String userNameOrEmail);
 
 	void update(User user);
+
+	List<User> getUserId(String emailId);
+	
+	void UpdatePasswordNew(UpdatePasswordNew updatePassword);
 }

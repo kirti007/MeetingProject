@@ -5,19 +5,19 @@ public class UserPojo {
 	private String name;
 	private String emailId;
 	private String password;
-	private String userName;
+	//private String userName;
 
 	public UserPojo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserPojo(int id, String name, String emailId, String password, String userName) {
+	public UserPojo(int id, String name, String emailId, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.emailId = emailId;
 		this.password = password;
-		this.userName = userName;
+		//this.userName = userName;
 	}
 
 	public int getId() {
@@ -52,12 +52,12 @@ public class UserPojo {
 		this.password = password;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+//	public String getUserName() {
+//		return userName;
+//	}
+//
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
 
 }

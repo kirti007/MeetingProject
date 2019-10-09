@@ -59,4 +59,13 @@ public class UserController {
 					"One mail has been sent on your registered email id with one time password !!", "SUCCESS");
 		return new RestResponse<String>(true, "0", "Oops.. some things is not right !!", "FAILED");
 	}
+	
+	@RequestMapping(value = RestMappingUrls.User.ForgotPassword_new, method = RequestMethod.GET)
+	public RestResponse<String> ForgotPassword_new(@RequestParam String emailId) {
+	boolean mailSent = userService.ForgotPassword_new(emailId);
+	if (mailSent)
+	return new RestResponse<String>(false, "0",
+	"Reset Password mail Link has been sent to your Registered mail id !!", "SUCCESS");
+	return new RestResponse<String>(true, "0", "Oops.. some things is not right !!", "FAILED");
+	}
 }

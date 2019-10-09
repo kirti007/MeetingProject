@@ -8,7 +8,7 @@ public enum ApplicationResponseCode {
 			"INC_DATA"), //
 	ROOM_DATA_IS_NULL("Room data is null !!", "INV_REQ"), //
 	USER_ID_NULL("User id is null !!", "UID_NULL"), //
-	WROND_DATE_SELECTED("Starts date and time always be lesser then start date time !!", "WRG_DATE"), //
+	WROND_DATE_SELECTED("Starts date and time always be lesser then End date time !!", "WRG_DATE"), //
 	INVALID_ROOM("Invalid room !!", "INV_ROOM"), //
 	NOT_VALID_USER("Not valid user !!", "INV_USER"),
 	ALREADY_BOOKED("Room is already booked between entered time","Wrong_time"),

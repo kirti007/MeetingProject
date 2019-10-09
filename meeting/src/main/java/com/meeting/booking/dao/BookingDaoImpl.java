@@ -1,16 +1,10 @@
 package com.meeting.booking.dao;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-import com.meeting.booking.constants.RestMappingUrls.User;
-import com.meeting.booking.enums.Status;
 import com.meeting.booking.model.Booking;
-import com.meeting.booking.model.MeetingRoom;
 import com.meeting.booking.model.NewBooking;
 import com.meeting.booking.pojo.ActiveBookingResponse;
 import com.meeting.booking.pojo.AvailibilityResponse;
@@ -84,7 +75,8 @@ public class BookingDaoImpl implements BookingDao {
 		 */
 		int length = 0;
 		int length1 = 1;
-		String s="0,1,2,3,4,5,6";
+		String s = "0,1,2,3,4,5,6";
+		// boolean allDay=true;
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		String s1 = "";
 		s1 = "'" + timeStamp + "'";
@@ -103,7 +95,7 @@ public class BookingDaoImpl implements BookingDao {
 
 			ActiveBookingResponse b1 = new ActiveBookingResponse();
 			Booking b = itr.next();
-			//int bookedById=b.getBookedBy();
+			// int bookedById=b.getBookedBy();
 			Date sTime = b.getStartTime();
 			Date eTime = b.getEndTime();
 			String[] s2 = sTime.toString().split(" ");
@@ -122,16 +114,16 @@ public class BookingDaoImpl implements BookingDao {
 			r = new Ranges[1];
 
 			Ranges r1 = new Ranges();
-//			String startDateToEdit=startDate;
-//			String [] startDateToEdit1=startDateToEdit.split("-");
-//			Integer startDateToEdit2=Integer.parseInt(startDateToEdit1[2])-1;
-//			String startDateToEdit3=	startDateToEdit1[0]+"-"+startDateToEdit1[1]+"-"+startDateToEdit2;
+//			String startDateToEdit = startDate;
+//			String[] startDateToEdit1 = startDateToEdit.split("-");
+//			Integer startDateToEdit2 = Integer.parseInt(startDateToEdit1[2]) + 1;
+//			String startDateToEdit3 = startDateToEdit1[0] + "-" + startDateToEdit1[1] + "-" + startDateToEdit2;
 			r1.setStart(startDate);
-			String timeToEdit=endDate;
-			String [] endDateToEdit1=timeToEdit.split("-");
-			Integer endDateToEdit2=Integer.parseInt(endDateToEdit1[2])+1;
-			String endDateToEdit3=	endDateToEdit1[0]+"-"+endDateToEdit1[1]+"-"+endDateToEdit2;
-			r1.setEnd(endDateToEdit3);
+//			String timeToEdit = endDate;
+//			String[] endDateToEdit1 = timeToEdit.split("-");
+//			Integer endDateToEdit2 = Integer.parseInt(endDateToEdit1[2]) + 1;
+//			String endDateToEdit3 = endDateToEdit1[0] + "-" + endDateToEdit1[1] + "-" + endDateToEdit2;
+			r1.setEnd(endDate);
 			r[0] = r1;
 
 			// b1.setStartDate(startDate);
@@ -145,6 +137,7 @@ public class BookingDaoImpl implements BookingDao {
 			b1.setPurpose(b.getPurpose());
 			b1.setRanges(r);
 			b1.setDow(s);
+			b1.setAllDay(true);
 			bookings2.add(b1);
 
 		}
@@ -227,13 +220,13 @@ public class BookingDaoImpl implements BookingDao {
 			Query q2 = factory.createNativeQuery("select room_name from meeting_rooms where id=" + k);
 			String room = (String) q2.getSingleResult();
 
-			b1.setStartDate(startDate+" ");
-			b1.setEndDate(endDate+" ");
-			b1.setStartTime(starTime+" ");
-			b1.setEndTime(endTime+" ");
-			b1.setPurpose(b.getPurpose()+" ");
+			b1.setStartDate(startDate + " ");
+			b1.setEndDate(endDate + " ");
+			b1.setStartTime(starTime + " ");
+			b1.setEndTime(endTime + " ");
+			b1.setPurpose(b.getPurpose() + " ");
 			b1.setId(b.getId());
-			b1.setMeetingRoom(room+" ");
+			b1.setMeetingRoom(room + " ");
 			bookings2.add(b1);
 
 		}

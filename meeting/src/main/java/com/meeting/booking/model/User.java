@@ -17,7 +17,7 @@ public class User implements Serializable {
 		String NAME = "name";
 		String EMAIL_ID = "email_id";
 		String PASSWORD = "password";
-		String USER_NAME = "user_name";
+		//String USER_NAME = "user_name";
 	}
 
 	/**
@@ -33,20 +33,20 @@ public class User implements Serializable {
 	private String emailId;
 	@Column(name = User.FIELDS.PASSWORD, nullable = false)
 	private String password;
-	@Column(name = User.FIELDS.USER_NAME, nullable = false, unique = true)
-	private String userName;
+//	@Column(name = User.FIELDS.USER_NAME, nullable = false, unique = true)
+//	private String userName;
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String name, String emailId, String password, String userName) {
+	public User(String name, String emailId, String password) {
 		super();
 		this.name = name;
 		this.emailId = emailId;
 		this.password = password;
-		this.userName = userName;
+	//	this.userName = userName;
 	}
 
 	public int getId() {
@@ -81,13 +81,13 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+//	public String getUserName() {
+//		return userName;
+//	}
+//
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
