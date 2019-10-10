@@ -234,17 +234,29 @@ public class BookingDaoImpl implements BookingDao {
 		return bookings2;
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Booking> deleteById(int id) {
+		boolean b = false;
+        Query q4=factory.createNativeQuery("select * from booking  where booking.id=" + id, Booking.class);
+		List<Booking> li=q4.getResultList();
+    
+		System.out.println(li);
+		return li;
+	
+	}
 
 	@Override
-	public boolean deleteById(int id) {
-		boolean b = false;
+	public boolean deleteByIdNew(int id) {
 		Query q2 = factory.createNativeQuery("delete from newbooking where booking_id=" + id);
 		Query q1 = factory.createNativeQuery("delete from booking where id=" + id);
-
+		boolean b=false;
 		int i = q2.executeUpdate();
 		int j = q1.executeUpdate();
-		if (i >= 1 && j >= 1) {
-			b = true;
+		if(i>0&j>1)
+		{
+			b=true;
 		}
 
 		return b;

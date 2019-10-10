@@ -42,12 +42,14 @@ public class Booking implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private NewBooking newBooking;
+	@Column(name = "eId")
+	private String eId;
 
 	public Booking() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Booking(int id, String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy, Status status) {
+	public Booking(int id, String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy,String eId, Status status) {
 		super();
 		this.id = id;
 		this.purpose = purpose;
@@ -56,9 +58,10 @@ public class Booking implements Serializable {
 		this.bookedRoom = bookedRoom;
 		this.bookedBy = bookedBy;
 		this.status = status;
+		this.eId=eId;
 	}
 
-	public Booking(String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy, Status status,
+	public Booking(String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy,String eId, Status status,
 			NewBooking newBooking) {
 		super();
 		this.purpose = purpose;
@@ -67,7 +70,16 @@ public class Booking implements Serializable {
 		this.bookedRoom = bookedRoom;
 		this.bookedBy = bookedBy;
 		this.status = status;
+		this.eId=eId;
 		this.newBooking = newBooking;
+	}
+
+	public String geteId() {
+		return eId;
+	}
+
+	public void seteId(String eId) {
+		this.eId = eId;
 	}
 
 	public int getId() {

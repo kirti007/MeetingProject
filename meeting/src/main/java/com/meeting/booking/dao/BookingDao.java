@@ -25,6 +25,8 @@ public interface BookingDao {
 	
 	public List<AvailibilityResponse> myBookings(int id);
 	
-	public boolean deleteById(int id);
+	public List<Booking> deleteById(int id);
+
+	public boolean deleteByIdNew(int id);
 
 }
