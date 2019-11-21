@@ -20,6 +20,9 @@ public interface RestMappingUrls {
 		String UPDATE_PASSWORD = BASE + "/updatePassword";
 		String FORWARD_PASSWORD = BASE + "/forgetPassword";
 		String ForgotPassword_new = BASE + "/ForgotPassword_new";
+		String getAllEmail = BASE + "/getAllEmail";
+
+
 	}
 
 	interface Booking {

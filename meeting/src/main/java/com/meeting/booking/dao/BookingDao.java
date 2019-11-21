@@ -29,4 +29,6 @@ public interface BookingDao {
 
 	public boolean deleteByIdNew(int id);
 
+	public List<String> getEmailId(int id);
+
 }

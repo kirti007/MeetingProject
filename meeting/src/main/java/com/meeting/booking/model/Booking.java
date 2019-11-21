@@ -2,9 +2,11 @@ package com.meeting.booking.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,19 +39,24 @@ public class Booking implements Serializable {
 	private int bookedRoom;// room id
 	@Column(name = "booked_by")
 	private int bookedBy;// User id
+	@Column(name = "eId")
+	private String eId;
 	@Column(name = "status")
 	private Status status;
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private NewBooking newBooking;
-	@Column(name = "eId")
-	private String eId;
+	
+	@ElementCollection
+	@Column(name="attendee")
+	private List<String> attendee;
+	
 
 	public Booking() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Booking(int id, String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy,String eId, Status status) {
+	public Booking(int id, String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy,String eId, Status status,List<String> attendee) {
 		super();
 		this.id = id;
 		this.purpose = purpose;
@@ -59,10 +66,12 @@ public class Booking implements Serializable {
 		this.bookedBy = bookedBy;
 		this.status = status;
 		this.eId=eId;
+		this.attendee = attendee;
+
 	}
 
 	public Booking(String purpose, Date startTime, Date endTime, int bookedRoom, int bookedBy,String eId, Status status,
-			NewBooking newBooking) {
+			NewBooking newBooking,List<String> attendee) {
 		super();
 		this.purpose = purpose;
 		this.startTime = startTime;
@@ -72,6 +81,17 @@ public class Booking implements Serializable {
 		this.status = status;
 		this.eId=eId;
 		this.newBooking = newBooking;
+		this.attendee = attendee;
+
+	}
+
+	
+	public List<String> getAttendee() {
+		return attendee;
+	}
+
+	public void setAttendee(List<String> attendee) {
+		this.attendee = attendee;
 	}
 
 	public String geteId() {

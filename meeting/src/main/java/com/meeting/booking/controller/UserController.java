@@ -1,5 +1,7 @@
 package com.meeting.booking.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -67,5 +69,15 @@ public class UserController {
 	return new RestResponse<String>(false, "0",
 	"Reset Password mail Link has been sent to your Registered mail id !!", "SUCCESS");
 	return new RestResponse<String>(true, "0", "Oops.. some things is not right !!", "FAILED");
+	}
+	@RequestMapping(value = RestMappingUrls.User.getAllEmail, method = RequestMethod.GET)
+	public RestResponse<List<String>> getAllEmail() {
+		
+		List<String> user= userService.getAllEmail();
+		if(user!=null)
+			return new RestResponse<List<String>>(false, "0", user, "Success");
+		return new RestResponse<List<String>>(true, "0", null, "No Record found");
+
+		
 	}
 }

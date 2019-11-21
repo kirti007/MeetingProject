@@ -1,6 +1,6 @@
 package com.meeting.booking.dao;
 
-import java.util.List; 
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -36,9 +36,7 @@ public class UserDaoImpl implements UserDao {
 		List<User> users = p.getResultList();
 		if (CollectionUtils.isEmpty(users))
 			return null;
-		return users.stream()
-				.filter(u -> u.getEmailId().equals(userNameOrEmail))
-				.findAny().orElse(null);
+		return users.stream().filter(u -> u.getEmailId().equals(userNameOrEmail)).findAny().orElse(null);
 	}
 
 	@Override
@@ -46,25 +44,35 @@ public class UserDaoImpl implements UserDao {
 		factory.persist(user);
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUserId(String emailId) {
 
-	Query q=factory.createNativeQuery("select * from user where email_id='"+emailId+"'", User.class);
-	//ArrayList<User> li = (ArrayList<User>) q.getResultList();
-	List<User> li=q.getResultList();
-	System.out.println(li);
-	return li;
+		Query q = factory.createNativeQuery("select * from user where email_id='" + emailId + "'", User.class);
+		// ArrayList<User> li = (ArrayList<User>) q.getResultList();
+		List<User> li = q.getResultList();
+		System.out.println(li);
+		return li;
 	}
-	
+
 	@Override
 	public void UpdatePasswordNew(UpdatePasswordNew updatePassword) {
-	String emId="'" +updatePassword.getUserNameOrEmail()+"'";
-	String pass="'"+updatePassword.getNewPassword()+"'";
-	int id=+updatePassword.getId();
-	Query q=factory.createNativeQuery("update user set password="+pass+"where email_id="+emId+"and id="+id+"",User.class);
-	q.executeUpdate();
+		String emId = "'" + updatePassword.getUserNameOrEmail() + "'";
+		String pass = "'" + updatePassword.getNewPassword() + "'";
+		int id = +updatePassword.getId();
+		Query q = factory.createNativeQuery(
+				"update user set password=" + pass + "where email_id=" + emId + "and id=" + id + "", User.class);
+		q.executeUpdate();
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getAllEmail() {
+		Query q = factory.createNativeQuery("select email_id from user");
+
+		List<String> li = q.getResultList();
+		System.out.println(li);
+		return li;
 	}
 }

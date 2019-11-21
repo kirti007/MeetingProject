@@ -30,7 +30,7 @@ public class MailService {
 
 	private static final String SENDER_EMAIL = "bookmycr@atmecs.com";
 	private static final String SENDER_USERNAME = "bookmycr@atmecs.com";
-	private static final String SENDER_PASSWORD = "Atmecs@123456789";
+	private static final String SENDER_PASSWORD = "Atmecs@12345678910";
 	private static Properties props;
 	private static Session session;
 	

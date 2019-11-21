@@ -1,5 +1,7 @@
 package com.meeting.booking.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -82,6 +84,19 @@ public class UserServiceImpl implements UserService {
 		userDao.update(user);
 		return true;
 	}
+//	@Override
+//	public boolean UpdatePasswordNew(UpdatePasswordNew updatePassword) {
+//		
+//		User user = userDao.getUser(updatePassword.getEmail());
+//		if (user == null)
+//			throw new IllegalAccessError("Entered email/userName is wrong !!");
+//		
+//		String hashedNewPassword = hashPassword(updatePassword.getNewPassword());
+//	//	user.setPassword(hashedNewPassword);
+//		updatePassword.setNewPassword(hashedNewPassword);
+//		userDao.UpdatePasswordNew(updatePassword);
+//		return true;
+//	}
 
 	@Override
 	public boolean forgetPassword(String userId) {
@@ -91,7 +106,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null)
 			throw new IllegalAccessError("Entered email/userName is wrong !!");
 		return composeMailAndSend(user);
-	}
+	} 
 
 	public boolean composeMailAndSend(User user) {
 		StringBuilder builder = new StringBuilder();
@@ -121,16 +136,14 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public boolean UpdatePasswordNew(UpdatePasswordNew updatePassword) {
+	public List<String> getAllEmail() {
+		List<String> user=userDao.getAllEmail();
+		return user;
+	}
 
-	User user = userDao.getUser(updatePassword.getUserNameOrEmail());
-	if (user == null)
-	throw new IllegalAccessError("Entered email/userName is wrong !!");
-
-	String hashedNewPassword = hashPassword(updatePassword.getNewPassword());
-	// user.setPassword(hashedNewPassword);
-	updatePassword.setNewPassword(hashedNewPassword);
-	userDao.UpdatePasswordNew(updatePassword);
-	return true;
+	@Override
+	public boolean UpdatePasswordNew(com.meeting.booking.pojo.UpdatePasswordNew updatePassword) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

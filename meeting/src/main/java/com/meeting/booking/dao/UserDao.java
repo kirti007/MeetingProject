@@ -18,4 +18,6 @@ public interface UserDao {
 	List<User> getUserId(String emailId);
 	
 	void UpdatePasswordNew(UpdatePasswordNew updatePassword);
+
+	List<String> getAllEmail();
 }

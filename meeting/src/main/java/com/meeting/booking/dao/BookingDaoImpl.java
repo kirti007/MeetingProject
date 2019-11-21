@@ -249,17 +249,29 @@ public class BookingDaoImpl implements BookingDao {
 
 	@Override
 	public boolean deleteByIdNew(int id) {
+		Query q3= factory.createNativeQuery("delete from booking_attendee where booking_id="+id);
 		Query q2 = factory.createNativeQuery("delete from newbooking where booking_id=" + id);
 		Query q1 = factory.createNativeQuery("delete from booking where id=" + id);
 		boolean b=false;
+		int k = q3.executeUpdate();
+
 		int i = q2.executeUpdate();
 		int j = q1.executeUpdate();
-		if(i>0&j>1)
+		if(i>0&j>1&k>0)
 		{
 			b=true;
 		}
 
 		return b;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getEmailId(int id) {
+		Query q1=factory.createNativeQuery("select attendee from booking_attendee where booking_id="+id);
+		List<String> em1=q1.getResultList();
+		System.out.println(em1);
+		return em1;
 	}
 
 }
